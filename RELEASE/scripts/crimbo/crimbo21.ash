@@ -6,6 +6,43 @@ void crimbo_settings_defaults()
 	//defaultConfig("cribo_setting", "default_value");
 }
 
+void spam_url(string target)
+{
+	//hit a url repeatedly to exhaust all the dialog. stop when the results are the same as before.
+	string page_text_old;
+	string page_text_new = visit_url(target);
+	int protect = 0;
+	auto_log_debug("spam_url starting for: " +target);
+	while(page_text_old != page_text_new)
+	{
+		page_text_old = page_text_new;		//the new becomes the old
+		page_text_new = visit_url(target);
+		protect++;
+		if(protect > 10)
+		{
+			print("spam_url detected infinite loop when trying to repeat visit the url:", "red");
+			print(target, "red");
+			print("correcting by halting the loop", "red");
+			break;
+		}
+	}
+	auto_log_debug("spam_url finished successfully");
+}
+
+void crimbo_quest_start()
+{
+	//starts the crimbo quests
+	if(get_property("_crimbo21_quest_started").to_boolean())
+	{
+		return;		//already done today
+	}
+	
+	spam_url("place.php?whichplace=crimbo21&action=c21_abuela");
+	spam_url("place.php?whichplace=northpole&action=np_bonfire");
+	
+	set_property("_crimbo21_quest_started", true);
+}
+
 boolean cAdv(int num, location loc, string option)
 {
 	remove_property("auto_combatHandler");
@@ -84,6 +121,7 @@ void main(int adv_to_use)
 		abort("Attempting to run crimbo 2021 while in softcore or hardcore is not currently supported");
 	}
 	crimbo_settings_defaults();
+	crimbo_quest_start();
 	
 	backupSetting("printStackOnAbort", true);
 	backupSetting("promptAboutCrafting", 0);
