@@ -1,4 +1,4 @@
-import <scripts/autoscend/autoscend.ash>
+import <scripts/autoscend.ash>
 
 void crimbo_settings_defaults()
 {
