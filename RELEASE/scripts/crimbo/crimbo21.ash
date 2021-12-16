@@ -14,12 +14,22 @@ boolean crimbo_loop()
 	resetState();
 	auto_interruptCheck();
 	
-	//getHorse("dark");		//+meat and also -5 combat
+	horsePale();	//we want the cold res
 	asdonBuff($effect[Driving Observantly]);	//+50% item drops
 	
-	location goal = $location[Site Alpha Dormitory];		//currently only place we can adv
+	//choose where to adv. currently only one location available
+	location goal = $location[Site Alpha Dormitory];		//req 12 cold res
+	
+	//prepare for coldness
+	int[element] resGoal;
+	resGoal[$element[cold]] = 12; //required for site alpha dormitory
+	if(!provideResistances(resGoal, goal, true))
+	{
+		abort("Failed to acquire the necessary cold resist");
+	}
 	
 	//finally adventure
+	equipMaximizedGear();
 	if(autoAdv(goal)) return true;
 	abort("Failed to adventure in [" + goal + "]");
 	return false;
