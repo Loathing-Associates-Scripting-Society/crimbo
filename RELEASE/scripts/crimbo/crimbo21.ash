@@ -80,7 +80,18 @@ boolean cAdv(location loc)
 int coldness()
 {
 	//[Site Alpha Dormitory] has scaling cold res requirement. starting at 5 and increased by 1 every 3 adv spent there.
-	return 5 + ($location[Site Alpha Dormitory].turns_spent / 3);
+	//there seems to be some unreliability on this value so add 1 to the final value
+	return 6 + ($location[Site Alpha Dormitory].turns_spent / 3);
+}
+
+void visit_sauna()
+{
+	if(have_effect($effect[Sauna-Fresh]) > 0)
+	{
+		return;		//already visited
+	}
+	visit_url("place.php?whichplace=northpole&action=np_sauna");
+	run_choice(1);
 }
 
 boolean crimbo_loop()
@@ -90,17 +101,27 @@ boolean crimbo_loop()
 	auto_interruptCheck();
 	
 	resetState();
-	string maximizer_override = "100 cold res,item,switch exotic parrot,switch mu,switch trick-or-treating tot";
-	set_property("auto_maximize_current", maximizer_override);
-	equipMaximizedGear();
 	
 	horsePale();	//we want the cold res
 	asdonBuff($effect[Driving Observantly]);	//+50% item drops
+	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);		//+20 item drop
+	buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);		//+10 item drop
 	
 	//choose where to adv. currently only one location available
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
 	location goal = $location[Site Alpha Dormitory];
+	
+	string maximizer_override = "100 cold res,item,switch exotic parrot,switch mu,switch trick-or-treating tot";
+	set_property("auto_maximize_current", maximizer_override);
+	equipMaximizedGear();
+	autoMaximize(maximizer_override, 0, 0, true);
+	int coldResist = numeric_modifier("Cold Resistance");
 	int coldness = coldness();
+	
+	if(coldResist < coldness)
+	{
+		visit_sauna();
+	}
 
 	//finally adventure
 	if(cAdv(goal)) return true;
@@ -122,9 +143,9 @@ void main(int adv_to_use)
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
 	backupSetting("maximizerCombinationLimit", "100000");
-	backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
+	backupSetting("betweenBattleScript", "scripts/crimbo/crimbo_pre_adv.ash");
+	backupSetting("afterAdventureScript", "scripts/crimbo/crimbo_post_adv.ash");
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
-	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 	backupSetting("recoveryScript", "");
 	backupSetting("counterScript", "");
 	backupSetting("battleAction", "custom combat script");
