@@ -102,10 +102,16 @@ boolean crimbo_loop()
 	
 	resetState();
 	
+	//cold res buffs
 	horsePale();	//we want the cold res
+	buffMaintain($effect[Astral shell], 0, 1, 1);
+	buffMaintain($effect[Elemental saucesphere], 0, 1, 1);
+	buffMaintain($effect[Scarysauce], 0, 1, 1);
+	
+	//item buffs
 	asdonBuff($effect[Driving Observantly]);	//+50% item drops
-	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);		//+20 item drop
-	buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);		//+10 item drop
+	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 0, 1, 1);		//+20 item drop
+	buffMaintain($effect[Singer\'s Faithful Ocelot], 0, 1, 1);			//+10 item drop
 	
 	//choose where to adv. currently only one location available
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
