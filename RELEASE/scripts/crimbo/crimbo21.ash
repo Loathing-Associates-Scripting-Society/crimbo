@@ -104,6 +104,8 @@ boolean crimbo_loop()
 	
 	horsePale();	//we want the cold res
 	asdonBuff($effect[Driving Observantly]);	//+50% item drops
+	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 20, 1, 10);		//+20 item drop
+	buffMaintain($effect[Singer\'s Faithful Ocelot], 35, 1, 10);		//+10 item drop
 	
 	//choose where to adv. currently only one location available
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
@@ -141,9 +143,9 @@ void main(int adv_to_use)
 	backupSetting("breakableHandling", 4);
 	backupSetting("dontStopForCounters", true);
 	backupSetting("maximizerCombinationLimit", "100000");
-	backupSetting("afterAdventureScript", "scripts/autoscend/auto_post_adv.ash");
+	backupSetting("betweenBattleScript", "scripts/crimbo/crimbo_pre_adv.ash");
+	backupSetting("afterAdventureScript", "scripts/crimbo/crimbo_post_adv.ash");
 	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
-	backupSetting("betweenBattleScript", "scripts/autoscend/auto_pre_adv.ash");
 	backupSetting("recoveryScript", "");
 	backupSetting("counterScript", "");
 	backupSetting("battleAction", "custom combat script");
