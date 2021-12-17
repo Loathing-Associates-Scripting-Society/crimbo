@@ -87,10 +87,12 @@ boolean crimbo_loop()
 {
 	//return true when changes are made to restart the loop.
 	//return false to end the loop.
+	auto_interruptCheck();
 	
 	resetState();
-	auto_interruptCheck();
-	int coldness = coldness();
+	string maximizer_override = "100 cold res,item,switch exotic parrot,switch mu,switch trick-or-treating tot";
+	set_property("auto_maximize_current", maximizer_override);
+	equipMaximizedGear();
 	
 	horsePale();	//we want the cold res
 	asdonBuff($effect[Driving Observantly]);	//+50% item drops
@@ -98,17 +100,9 @@ boolean crimbo_loop()
 	//choose where to adv. currently only one location available
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
 	location goal = $location[Site Alpha Dormitory];
-	
-	//prepare for coldness
-	int[element] resGoal;
-	resGoal[$element[cold]] = coldness;
-	if(!provideResistances(resGoal, goal, true))
-	{
-		abort("Failed to get " +coldness+ " cold resist");
-	}
-	
+	int coldness = coldness();
+
 	//finally adventure
-	equipMaximizedGear();
 	if(cAdv(goal)) return true;
 	abort("Failed to adventure in [" + goal + "]");
 	return false;
