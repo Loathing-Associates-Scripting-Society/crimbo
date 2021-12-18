@@ -81,7 +81,8 @@ int coldness()
 {
 	//[Site Alpha Dormitory] has scaling cold res requirement. starting at 5 and increased by 1 every 3 adv spent there.
 	//there seems to be some unreliability on this value so add 1 to the final value
-	return 6 + ($location[Site Alpha Dormitory].turns_spent / 3);
+	int visits = get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int();
+	return 6 + (visits / 3);
 }
 
 void visit_sauna()
@@ -116,6 +117,10 @@ boolean crimbo_loop()
 	//choose where to adv. currently only one location available
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
 	location goal = $location[Site Alpha Dormitory];
+	if(get_property("_crimbo21_greenhouse").to_int() < get_property("_crimbo21_dormitory").to_int())
+	{
+		goal = $location[Site Alpha Greenhouse];
+	}
 	
 	string maximizer_override = "5item";
 	set_property("auto_maximize_current", maximizer_override);
