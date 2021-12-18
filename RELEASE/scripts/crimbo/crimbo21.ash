@@ -124,6 +124,10 @@ boolean crimbo_loop()
 	int coldResist = numeric_modifier("Cold Resistance");
 	int coldness = coldness();
 	
+	int [element] res;
+	res[$element[cold]] = coldness;
+	provideResistances(res, goal, true);
+	
 	if(coldResist < coldness)
 	{
 		visit_sauna();
