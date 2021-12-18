@@ -117,13 +117,14 @@ boolean crimbo_loop()
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
 	location goal = $location[Site Alpha Dormitory];
 	
-	string maximizer_override = "100 cold res,item,switch exotic parrot,switch mu,switch trick-or-treating tot";
+	string maximizer_override = "5item";
 	set_property("auto_maximize_current", maximizer_override);
 	equipMaximizedGear();
 	autoMaximize(maximizer_override, 0, 0, true);
 	int coldResist = numeric_modifier("Cold Resistance");
 	int coldness = coldness();
 	
+	//provide resistances will also handle familiar switching
 	int [element] res;
 	res[$element[cold]] = coldness;
 	provideResistances(res, goal, true);
