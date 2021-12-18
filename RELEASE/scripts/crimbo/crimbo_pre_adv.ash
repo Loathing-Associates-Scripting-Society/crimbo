@@ -213,8 +213,7 @@ boolean crimbo_pre_adventure()
 
 	// EQUIP MAXIMIZED GEAR
 	auto_ghost_prep(place);
-	equipMaximizedGear();
-	auto_handleRetrocape(); // has to be done after equipMaximizedGear otherwise the maximizer reconfigures it
+	maximize(get_property("auto_maximize_current"), 2500, 0, false);
 	cli_execute("checkpoint clear");
 	executeFlavour();
 

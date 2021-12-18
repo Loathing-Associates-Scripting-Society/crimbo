@@ -151,7 +151,6 @@ boolean crimbo_loop()
 	
 	string maximizer_override = "5item";
 	set_property("auto_maximize_current", maximizer_override);
-	equipMaximizedGear();
 	autoMaximize(maximizer_override, 0, 0, true);
 	int coldResist = numeric_modifier("Cold Resistance");
 	int coldness = coldness();
