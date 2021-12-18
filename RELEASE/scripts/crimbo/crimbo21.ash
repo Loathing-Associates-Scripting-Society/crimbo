@@ -38,6 +38,15 @@ void crimbo_quest_start()
 	}
 	
 	spam_url("place.php?whichplace=crimbo21&action=c21_abuela");
+	visit_url("place.php?whichplace=northpole");
+	spam_url("place.php?whichplace=northpole&action=np_bonfire");
+	
+	visit_url("place.php?whichplace=northpole&action=np_sauna");
+	run_choice(2);	//leave
+	spam_url("place.php?whichplace=northpole&action=np_bonfire");
+	
+	visit_url("place.php?whichplace=northpole&action=np_foodlab");
+	run_choice(2);	//leave
 	spam_url("place.php?whichplace=northpole&action=np_bonfire");
 	
 	set_property("_crimbo21_quest_started", true);
