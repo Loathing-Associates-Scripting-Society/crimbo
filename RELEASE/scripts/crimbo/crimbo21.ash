@@ -107,6 +107,7 @@ void coldness_correction()
 	int predicted_value = (get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int()) / 3;
 	predicted_value += 5;
 	int diff = actual_coldness - predicted_value;
+	auto_log_debug("Compensating for coldness. adjust value = " +diff);
 	set_property("_crimbo21_cold_adjust", diff);
 	remove_property("_crimbo21ColdResistance");
 }
@@ -150,12 +151,12 @@ boolean crimbo_loop()
 	
 	string maximizer_override = "5item";
 	set_property("auto_maximize_current", maximizer_override);
-	equipMaximizedGear();
 	autoMaximize(maximizer_override, 0, 0, true);
 	int coldResist = numeric_modifier("Cold Resistance");
 	int coldness = coldness();
 	
 	//provide resistances will also handle familiar switching
+	auto_log_debug("Attempting to acquire " +coldness+ " cold res");
 	int [element] res;
 	res[$element[cold]] = coldness;
 	provideResistances(res, goal, true);
