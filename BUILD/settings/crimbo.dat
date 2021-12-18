@@ -1,0 +1,2 @@
+#crimbo shared settings
+crimbo_do_free_combats	boolean	should we use up free combats before starting on crimbo. By default this is off.
