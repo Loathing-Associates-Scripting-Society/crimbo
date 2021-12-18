@@ -91,7 +91,24 @@ int coldness()
 	//[Site Alpha Dormitory] has scaling cold res requirement. starting at 5 and increased by 1 every 3 adv spent there.
 	//there seems to be some unreliability on this value so add 1 to the final value
 	int visits = get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int();
-	return 6 + (visits / 3);
+	int adjust = get_property("_crimbo21_cold_adjust").to_int();
+	return 6 + (visits / 3) + adjust;
+}
+
+void coldness_correction()
+{
+	//if coldness becomes desynced we need to fix it with an adjustment value
+	int actual_coldness = get_property("_crimbo21ColdResistance").to_int();
+	if(actual_coldness == 0)
+	{
+		return;		//nothing to fix yet
+	}
+	
+	int predicted_value = (get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int()) / 3;
+	predicted_value += 5;
+	int diff = actual_coldness - predicted_value;
+	set_property("_crimbo21_cold_adjust", diff);
+	remove_property("_crimbo21ColdResistance");
 }
 
 void visit_sauna()
@@ -162,6 +179,7 @@ void main(int adv_to_use)
 	}
 	crimbo_settings_defaults();
 	crimbo_quest_start();
+	coldness_correction();
 	
 	backupSetting("printStackOnAbort", true);
 	backupSetting("promptAboutCrafting", 0);
