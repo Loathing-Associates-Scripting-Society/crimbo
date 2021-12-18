@@ -149,17 +149,17 @@ boolean crimbo_loop()
 		goal = $location[Site Alpha Greenhouse];
 	}
 	
+	//configure maximizer
 	string maximizer_override = "5item";
 	set_property("auto_maximize_current", maximizer_override);
-	autoMaximize(maximizer_override, 0, 0, true);
+	autoMaximize(maximizer_override, 0, 0, true);	//simulate once for the sake of provideResistances
 	int coldResist = numeric_modifier("Cold Resistance");
 	int coldness = coldness();
 	
-	//provide resistances will also handle familiar switching
 	auto_log_debug("Attempting to acquire " +coldness+ " cold res");
 	int [element] res;
 	res[$element[cold]] = coldness;
-	provideResistances(res, goal, true);
+	provideResistances(res, goal, true);		//will also handle familiar switching
 	
 	if(coldResist < coldness)
 	{
