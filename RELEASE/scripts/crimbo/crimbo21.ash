@@ -153,6 +153,11 @@ boolean crimbo_loop()
 	
 	resetState();
 	
+	if(get_property("crimbo_do_free_combats").to_boolean())
+	{
+		if(LX_freeCombats(true)) return true;
+	}
+	
 	//cold res buffs
 	horsePale();	//we want the cold res
 	buffMaintain($effect[Astral shell], 0, 1, 1);
