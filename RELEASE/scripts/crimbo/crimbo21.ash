@@ -122,6 +122,29 @@ void visit_sauna()
 	run_choice(1);
 }
 
+void coldFam()
+{
+	//we need a cold resistent familiar
+	familiar resfam = $familiar[none];
+	foreach fam in $familiars[Trick-or-Treating Tot, Mu, Exotic Parrot]
+	{
+		if(auto_have_familiar(fam))
+		{
+			resfam = fam;
+			break;
+		}
+	}
+	if(resfam != $familiar[none])
+	{
+		handleFamiliar(resfam);
+		use_familiar(resfam);
+		if(resfam == $familiar[Trick-or-Treating Tot])
+		{
+			cli_execute("acquire 1 li'l candy corn costume");
+		}
+	}
+}
+
 boolean crimbo_loop()
 {
 	//return true when changes are made to restart the loop.
@@ -149,17 +172,19 @@ boolean crimbo_loop()
 		goal = $location[Site Alpha Greenhouse];
 	}
 	
+	coldFam();		//get a cold res familiar if possible.
+	
 	//configure maximizer
-	string maximizer_override = "5item";
+	string maximizer_override = "5item,200cold res";
 	set_property("auto_maximize_current", maximizer_override);
-	autoMaximize(maximizer_override, 0, 0, true);	//simulate once for the sake of provideResistances
+	maximize(get_property("auto_maximize_current"), 2500, 0, false);	//maximize. needed for provide as well.
+	
 	int coldResist = numeric_modifier("Cold Resistance");
 	int coldness = coldness();
-	
 	auto_log_debug("Attempting to acquire " +coldness+ " cold res");
 	int [element] res;
 	res[$element[cold]] = coldness;
-	provideResistances(res, goal, true);		//will also handle familiar switching
+	provideResistances(res, goal, false);		//do not switch outfit here. maximizer handles it better.
 	
 	if(coldResist < coldness)
 	{

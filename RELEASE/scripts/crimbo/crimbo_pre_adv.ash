@@ -211,10 +211,6 @@ boolean crimbo_pre_adventure()
 		januaryToteAcquire($item[Wad Of Used Tape]);
 	}
 
-	// EQUIP MAXIMIZED GEAR
-	auto_ghost_prep(place);
-	maximize(get_property("auto_maximize_current"), 2500, 0, false);
-	cli_execute("checkpoint clear");
 	executeFlavour();
 
 	if (my_hp() <= (my_maxhp() * 0.75)) {
