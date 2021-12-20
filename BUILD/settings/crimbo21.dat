@@ -1,1 +1,4 @@
 #crimbo21 specific settings
+crimbo21_ratio_animal	int	The ratio priority for gooified animal matter. will determine how often we adv in dormitory. set to 0 to disable dormitory
+crimbo21_ratio_vegetable	int	The ratio priority for gooified vegetable matter. will determine how often we adv in greenhouse. set to 0 to disable greenhouse
+crimbo21_ratio_mineral	int	The ratio priority for gooified mineral matter. will determine how often we adv in quarry. set to 0 to disable quarry
