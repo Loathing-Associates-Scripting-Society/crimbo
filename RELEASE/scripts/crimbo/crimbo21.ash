@@ -6,6 +6,7 @@ void crimbo_settings_defaults()
 	defaultConfig("crimbo21_ratio_animal", 1);
 	defaultConfig("crimbo21_ratio_vegetable", 1);
 	defaultConfig("crimbo21_ratio_mineral", 1);
+	rename_property("crimbo21_consume","crimbo21_food");
 }
 
 void spam_url(string target)
@@ -48,6 +49,10 @@ void crimbo_quest_start()
 	spam_url("place.php?whichplace=northpole&action=np_bonfire");
 	
 	visit_url("place.php?whichplace=northpole&action=np_foodlab");
+	run_choice(2);	//leave
+	spam_url("place.php?whichplace=northpole&action=np_bonfire");
+	
+	visit_url("place.php?whichplace=northpole&action=np_boozelab");
 	run_choice(2);	//leave
 	spam_url("place.php?whichplace=northpole&action=np_bonfire");
 	
@@ -195,9 +200,9 @@ location crimbo21_goal()
 	return retval;
 }
 
-void crimbo21_consume()
+void crimbo21_food()
 {
-	//crimbo21 has epic quality food buyable as a quest item. once you eat one you can get another
+	//crimbo21 has epic quality experimental food buyable as a quest item. once you eat one you can get another
 	//you may decide you want to gorge on it while it is available
 	if(!get_property("crimbo21_food").to_boolean())
 	{
@@ -208,18 +213,59 @@ void crimbo21_consume()
 		return;		//not enough space to eat it
 	}
 	consumeMilkOfMagnesiumIfUnused();
-	item efood = $item[[experimental crimbo food]];
-	if(item_amount(efood) > 0)
-	{
-		eat(efood);
-		return;
-	}
-	if(item_amount($item[gooified animal matter]) >= 5)
+	
+	item exp = $item[[experimental crimbo food]];
+	if(item_amount(exp) == 0 && item_amount($item[gooified animal matter]) >= 5)
 	{
 		visit_url("place.php?whichplace=northpole&action=np_foodlab");
 		run_choice(1);	//buy food
-		eat(efood);
+		eat(exp);
 	}
+	if(item_amount(exp) == 0) abort("Mysteriously failed to acquire " +exp);
+	
+	eat(exp);
+}
+
+void crimbo21_drink()
+{
+	//crimbo21 has good quality experimental drink buyable as a quest item. once you eat one you can get another
+	//you may decide you want to gorge on it while it is available
+	if(!get_property("crimbo21_drink").to_boolean())
+	{
+		return;		//user did not opt in
+	}
+	if(my_familiar() == $familiar[Stooper] && pathAllowsChangingFamiliar())
+	{
+		auto_log_info("Avoiding stooper stupor...", "blue");
+		familiar fam = (is100FamRun() ? get_property("auto_100familiar").to_familiar() : $familiar[Mosquito]);
+		use_familiar(fam);
+	}
+	if(inebriety_left() < 3)
+	{
+		return;		//not enough space to drink it
+	}
+	
+	item exp = $item[[experimental crimbo booze]];
+	if(item_amount(exp) == 0 && item_amount($item[gooified vegetable matter]) >= 5)
+	{
+		visit_url("place.php?whichplace=northpole&action=np_boozelab");
+		run_choice(1);	//buy food
+	}
+	if(item_amount(exp) == 0) abort("Mysteriously failed to acquire " +exp);
+	
+	if(canOde(exp) && auto_have_skill($skill[The Ode to Booze]))
+	{
+		shrugAT($effect[Ode to Booze]);
+		acquireMP(mp_cost($skill[The Ode to Booze]), 0);
+		buffMaintain($effect[Ode to Booze]);
+	}
+	drink(exp);
+}
+
+void crimbo21_consume()
+{
+	crimbo21_food();
+	crimbo21_drink();
 }
 
 boolean crimbo_loop()
