@@ -51,6 +51,10 @@ void crimbo_quest_start()
 	run_choice(2);	//leave
 	spam_url("place.php?whichplace=northpole&action=np_bonfire");
 	
+	visit_url("place.php?whichplace=northpole&action=np_spleenlab");
+	run_choice(2);	//leave
+	spam_url("place.php?whichplace=northpole&action=np_bonfire");
+	
 	set_property("_crimbo21_quest_started", true);
 }
 
@@ -191,6 +195,30 @@ location crimbo21_goal()
 	return retval;
 }
 
+void crimbo21_consume()
+{
+	//crimbo21 has epic quality food buyable as a quest item. once you eat one you can get another
+	//you may decide you want to gorge on it while it is available
+	//TODO insert setting here
+	if(stomach_left() < 3)
+	{
+		return;		//not enough space to eat it
+	}
+	consumeMilkOfMagnesiumIfUnused();
+	item efood = $item[[experimental crimbo food]];
+	if(item_amount(efood) > 0)
+	{
+		eat(efood);
+		return;
+	}
+	if(item_amount($item[gooified animal matter]) >= 5)
+	{
+		visit_url("place.php?whichplace=northpole&action=np_foodlab");
+		run_choice(1);	//buy food
+		eat(efood);
+	}
+}
+
 boolean crimbo_loop()
 {
 	//return true when changes are made to restart the loop.
@@ -199,6 +227,7 @@ boolean crimbo_loop()
 	
 	resetState();
 	
+	crimbo21_consume();
 	if(get_property("crimbo_do_free_combats").to_boolean())
 	{
 		if(LX_freeCombats(true)) return true;
@@ -253,6 +282,7 @@ void main(int adv_to_use)
 	crimbo_settings_defaults();
 	crimbo_quest_start();
 	coldness_correction();
+	crimbo21_consume();		//in case starting at 0 adv
 	
 	backupSetting("printStackOnAbort", true);
 	backupSetting("promptAboutCrafting", 0);

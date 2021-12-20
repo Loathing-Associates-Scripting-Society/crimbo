@@ -2,3 +2,4 @@
 crimbo21_ratio_animal	int	The ratio priority for gooified animal matter. will determine how often we adv in dormitory. less than 1 disables dormitory
 crimbo21_ratio_vegetable	int	The ratio priority for gooified vegetable matter. will determine how often we adv in greenhouse. less than 1 disables greenhouse
 crimbo21_ratio_mineral	int	The ratio priority for gooified mineral matter. will determine how often we adv in quarry. less than 1 disables quarry
+crimbo21_consume	boolean	Do you want to automatically make and consume the food at the Site Alpha Food Lab? Defaults to false
