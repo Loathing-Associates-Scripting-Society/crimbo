@@ -199,7 +199,10 @@ void crimbo21_consume()
 {
 	//crimbo21 has epic quality food buyable as a quest item. once you eat one you can get another
 	//you may decide you want to gorge on it while it is available
-	//TODO insert setting here
+	if(!get_property("crimbo21_consume").to_boolean())
+	{
+		return;		//user did not opt in
+	}
 	if(stomach_left() < 3)
 	{
 		return;		//not enough space to eat it
