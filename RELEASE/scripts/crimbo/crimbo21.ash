@@ -3,7 +3,9 @@ import <scripts/autoscend.ash>
 void crimbo_settings_defaults()
 {
 	//set default values for settings which have not yet been configured
-	//defaultConfig("cribo_setting", "default_value");
+	defaultConfig("crimbo21_ratio_animal", 1);
+	defaultConfig("crimbo21_ratio_vegetable", 1);
+	defaultConfig("crimbo21_ratio_mineral", 1);
 }
 
 void spam_url(string target)
@@ -145,6 +147,50 @@ void coldFam()
 	}
 }
 
+location crimbo21_goal()
+{
+	//determine where we should adventure
+	location retval = $location[none];
+	
+	int anim_rat = get_property("crimbo21_ratio_animal").to_int();
+	int vege_rat = get_property("crimbo21_ratio_vegetable").to_int();
+	int mine_rat = get_property("crimbo21_ratio_mineral").to_int();
+	boolean skip_dormitory = anim_rat < 1;
+	boolean skip_greenhouse = vege_rat < 1;
+	boolean skip_quarry = mine_rat < 1;
+	
+	//find the relative values while preventing division by zero
+	float anim_val = -1;
+	float vege_val = -1;
+	float mine_val = -1;
+	if(!skip_dormitory) anim_val = item_amount($item[gooified animal matter]) / anim_rat;
+	if(!skip_greenhouse) vege_val = item_amount($item[gooified vegetable matter]) / vege_rat;
+	if(!skip_quarry) mine_val = item_amount($item[gooified mineral matter]) / mine_val;
+	
+	//choose lowest val as target. so long as it is not skipped
+	if(!skip_dormitory)
+	{
+		retval = $location[site alpha dormitory];
+	}
+	if(!skip_greenhouse)
+	{
+		if(retval == $location[none] || vege_val < anim_val)
+		{
+			retval = $location[site alpha greenhouse];
+		}
+	}
+	if(!skip_quarry)
+	{
+		if(retval == $location[none] ||
+		(retval == $location[site alpha dormitory] && mine_val < anim_val) ||
+		(retval == $location[site alpha greenhouse] && mine_val < vege_val))
+		{
+			retval = $location[site alpha quarry];
+		}
+	}
+	return retval;
+}
+
 boolean crimbo_loop()
 {
 	//return true when changes are made to restart the loop.
@@ -169,14 +215,10 @@ boolean crimbo_loop()
 	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 0, 1, 1);		//+20 item drop
 	buffMaintain($effect[Singer\'s Faithful Ocelot], 0, 1, 1);			//+10 item drop
 	
-	//choose where to adv. currently only one location available
+	//choose where to adv based on user configured ratio.
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
-	location goal = $location[Site Alpha Dormitory];
-	if(get_property("_crimbo21_greenhouse").to_int() < get_property("_crimbo21_dormitory").to_int())
-	{
-		goal = $location[Site Alpha Greenhouse];
-	}
-	
+	location goal = crimbo21_goal();
+	if(goal == $location[none]) abort("We have no target locaton to adv");
 	coldFam();		//get a cold res familiar if possible.
 	
 	//configure maximizer
