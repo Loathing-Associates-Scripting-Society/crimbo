@@ -205,12 +205,6 @@ boolean crimbo_pre_adventure()
 	horsePreAdventure();
 	auto_snapperPreAdventure(place);
 
-	// Last minute switching for garbage tote. But only if nothing called on januaryToteAcquire this turn.
-	if(!get_property("auto_januaryToteAcquireCalledThisTurn").to_boolean())
-	{
-		januaryToteAcquire($item[Wad Of Used Tape]);
-	}
-
 	executeFlavour();
 
 	if (my_hp() <= (my_maxhp() * 0.75)) {
