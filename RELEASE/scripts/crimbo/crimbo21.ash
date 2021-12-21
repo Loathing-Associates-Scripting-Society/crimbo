@@ -219,7 +219,6 @@ void crimbo21_food()
 	{
 		visit_url("place.php?whichplace=northpole&action=np_foodlab");
 		run_choice(1);	//buy food
-		eat(exp);
 	}
 	if(item_amount(exp) == 0) abort("Mysteriously failed to acquire " +exp);
 	
