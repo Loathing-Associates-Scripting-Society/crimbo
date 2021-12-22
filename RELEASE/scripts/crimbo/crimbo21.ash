@@ -283,14 +283,15 @@ boolean crimbo_loop()
 	
 	//cold res buffs
 	horsePale();	//we want the cold res
-	buffMaintain($effect[Astral shell], 0, 1, 1);
-	buffMaintain($effect[Elemental saucesphere], 0, 1, 1);
-	buffMaintain($effect[Scarysauce], 0, 1, 1);
+	buffMaintain($effect[Astral shell]);
+	buffMaintain($effect[Elemental saucesphere]);
+	buffMaintain($effect[Scarysauce]);
+	buffMaintain($effect[Scariersauce]);
 	
 	//item buffs
-	asdonBuff($effect[Driving Observantly]);	//+50% item drops
-	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric], 0, 1, 1);		//+20 item drop
-	buffMaintain($effect[Singer\'s Faithful Ocelot], 0, 1, 1);			//+10 item drop
+	asdonBuff($effect[Driving Observantly]);					//+50% item drops
+	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric]);			//+20 item drop
+	buffMaintain($effect[Singer\'s Faithful Ocelot]);			//+10 item drop
 	
 	//choose where to adv based on user configured ratio.
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
@@ -299,7 +300,7 @@ boolean crimbo_loop()
 	coldFam();		//get a cold res familiar if possible.
 	
 	//configure maximizer
-	string maximizer_override = "5item,200cold res";
+	string maximizer_override = "item,100cold res";
 	set_property("auto_maximize_current", maximizer_override);
 	maximize(get_property("auto_maximize_current"), 2500, 0, false);	//maximize. needed for provide as well.
 	
@@ -326,6 +327,16 @@ void main(int adv_to_use)
 	if(!can_interact())
 	{
 		abort("Attempting to run crimbo 2021 while in softcore or hardcore is not currently supported");
+	}
+	int autoscend_revision = svn_info("autoscend").revision;
+	if(autoscend_revision < 1)
+	{
+		print("Missing dependency script autoscend:", "red");
+		abort("https://github.com/Loathing-Associates-Scripting-Society/autoscend");
+	}
+	else if(autoscend_revision < 5130)
+	{
+		abort("Your autoscend version is too old. Try gCLI command svn update. if this does not fix the problem then you need to reinstall autoscend");
 	}
 	crimbo_settings_defaults();
 	crimbo_quest_start();
