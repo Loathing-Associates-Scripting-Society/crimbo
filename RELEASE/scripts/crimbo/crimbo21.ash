@@ -281,6 +281,8 @@ boolean crimbo_loop()
 		if(LX_freeCombats(true)) return true;
 	}
 	
+	if(LX_ghostBusting()) return true;
+	
 	//cold res buffs
 	horsePale();	//we want the cold res
 	buffMaintain($effect[Astral shell]);
