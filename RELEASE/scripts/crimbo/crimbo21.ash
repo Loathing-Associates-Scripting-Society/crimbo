@@ -174,7 +174,7 @@ location crimbo21_goal()
 	float mine_val = -1;
 	if(!skip_dormitory) anim_val = item_amount($item[gooified animal matter]) / anim_rat;
 	if(!skip_greenhouse) vege_val = item_amount($item[gooified vegetable matter]) / vege_rat;
-	if(!skip_quarry) mine_val = item_amount($item[gooified mineral matter]) / mine_val;
+	if(!skip_quarry) mine_val = item_amount($item[gooified mineral matter]) / mine_rat;
 	
 	//choose lowest val as target. so long as it is not skipped
 	if(!skip_dormitory)
