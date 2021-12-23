@@ -356,7 +356,6 @@ void main(int adv_to_use)
 	backupSetting("recoveryScript", "");
 	backupSetting("counterScript", "");
 	backupSetting("battleAction", "custom combat script");
-	backupSetting("currentMood", "apathetic");
 	backupSetting("logPreferenceChange", "true");
 	backupSetting("logPreferenceChangeFilter", "maximizerMRUList,testudinalTeachings,auto_maximize_current");
 	
