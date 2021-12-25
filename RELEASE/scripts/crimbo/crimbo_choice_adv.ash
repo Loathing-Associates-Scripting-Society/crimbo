@@ -1,5 +1,5 @@
 script "crimbo_choice_adv.ash";
-import <auto_choice_adv.ash>
+import <autoscend/auto_choice_adv.ash>
 
 boolean crimbo_run_choice(int choice, string page)
 {
