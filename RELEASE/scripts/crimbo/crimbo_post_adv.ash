@@ -10,8 +10,8 @@ void main()
 	{
 		string[int] split_enemy = split_string(enemy, "-");
 		int tons = split_enemy[0].to_int();
+		set_property("crimbo21_enemy_tons", tons);
 	}
-	set_property("crimbo21_enemy_tons", tons);
 
 	if(have_effect($effect[Beaten Up]) > 0)
 	{
