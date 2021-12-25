@@ -9,4 +9,5 @@ crimbo	0	crimbo_do_free_combats	boolean	should we use up free combats before sta
 #crimbo21 specific settings
 crimbo21	0	crimbo21_food	boolean	Set to True to automatically make and consume the EPIC quality experimental crimbo food
 crimbo21	1	crimbo21_drink	boolean	Set to True to automatically make and consume the good quality experimental crimbo drink
+crimbo21	2	crimbo21_tons_desired	int	Desired target tons for enemies in [Site Alpha Primary Lab]. Tonnage boosts ML significantly. Min value is 10. Every 3 tons above 10 will add 1 extra gooified drop. Enemies become stun immune @30? tons. @43 tons they become stagger immune and have about 50k attack and 100k hp.
 

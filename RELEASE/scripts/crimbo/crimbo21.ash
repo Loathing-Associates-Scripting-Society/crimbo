@@ -7,6 +7,9 @@ void crimbo_settings_defaults()
 	remove_property("crimbo21_ratio_vegetable");
 	remove_property("crimbo21_ratio_mineral");
 	rename_property("crimbo21_consume","crimbo21_food");
+	
+	//Desired target tons for enemies in [Site Alpha Primary Lab]. Tonnage boosts ML significantly. Min value is 10. Every 3 tons above 10 will add 1 extra gooified drop. Enemies become stun immune @30? tons. @43 tons they become stagger immune and have about 50k attack and 100k hp.
+	defaultConfig("crimbo21_tons_desired", 28);		//+6 items dropped without becomming immune to stuns
 }
 
 void spam_url(string target)

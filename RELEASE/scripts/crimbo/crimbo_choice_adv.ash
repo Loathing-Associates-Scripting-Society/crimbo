@@ -1,5 +1,5 @@
 script "crimbo_choice_adv.ash";
-import <autoscend/auto_choice_adv.ash>
+import <auto_choice_adv.ash>
 
 boolean crimbo_run_choice(int choice, string page)
 {
@@ -7,12 +7,23 @@ boolean crimbo_run_choice(int choice, string page)
 	
 	switch (choice)
 	{
-		case 1461: //crimbo 2021 site alpha
-			//choice 1: Turn the knob to the right. increase ML by 1.
-			//choice 2: Turn the knob to the left. reduces ML by 1. can not reduce below 10 but will adjust a hidden counter
+		case 1461: //crimbo 2021 site alpha primary lab
+			int ton_now = get_property("crimbo21_enemy_tons").to_int();
+			int ton_goal = get_property("crimbo21_tons_desired").to_int();
+			ton_goal = max(10,ton_goal);		//hidden value can go under 10 but enemy tons can never go below 10
+			if(ton_now < ton_goal)
+			{
+				run_choice(1);	//turn knob right. +1 ML
+			}
+			else if(ton_now > ton_goal)
+			{
+				run_choice(2);	//turn knob left. -1 ML. can not go below 10
+			}
+			else
+			{
+				run_choice(4);	//skip adv
+			}
 			//choice 3: Drop a grey goo ring into the slot. destroy it and gain +300 assorted goo items
-			//choice 4: Leave the console alone
-			run_choice(1);
 			break;
 		default:
 			return auto_run_choice(choice, page);
