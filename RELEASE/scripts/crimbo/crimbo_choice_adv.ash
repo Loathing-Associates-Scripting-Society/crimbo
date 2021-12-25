@@ -11,7 +11,11 @@ boolean crimbo_run_choice(int choice, string page)
 			int ton_now = get_property("crimbo21_enemy_tons").to_int();
 			int ton_goal = get_property("crimbo21_tons_desired").to_int();
 			ton_goal = max(10,ton_goal);		//hidden value can go under 10 but enemy tons can never go below 10
-			if(ton_now < ton_goal)
+			if(available_choice_options() contains 5)
+			{
+				run_choice(5);	//Grab the Cheer Core. once per account. blocks all other options.
+			}
+			else if(ton_now < ton_goal)
 			{
 				run_choice(1);	//turn knob right. +1 ML
 			}
