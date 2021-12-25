@@ -1,6 +1,3 @@
 #crimbo21 specific settings
-crimbo21_ratio_animal	int	The ratio priority for gooified animal matter. will determine how often we adv in dormitory. less than 1 disables dormitory
-crimbo21_ratio_vegetable	int	The ratio priority for gooified vegetable matter. will determine how often we adv in greenhouse. less than 1 disables greenhouse
-crimbo21_ratio_mineral	int	The ratio priority for gooified mineral matter. will determine how often we adv in quarry. less than 1 disables quarry
 crimbo21_food	boolean	Set to True to automatically make and consume the EPIC quality experimental crimbo food
 crimbo21_drink	boolean	Set to True to automatically make and consume the good quality experimental crimbo drink
