@@ -231,6 +231,12 @@ boolean crimbo_loop()
 	
 	resetState();
 	
+	//MCD is bad @ [site alpha primary lab]
+	if(current_mcd() != 0)
+	{
+		change_mcd(0);
+	}
+	
 	crimbo21_consume();
 	if(get_property("crimbo_do_free_combats").to_boolean())
 	{
