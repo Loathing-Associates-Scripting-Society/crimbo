@@ -7,6 +7,9 @@ void crimbo_settings_defaults()
 	remove_property("crimbo21_ratio_vegetable");
 	remove_property("crimbo21_ratio_mineral");
 	rename_property("crimbo21_consume","crimbo21_food");
+	
+	//Desired target tons for enemies in [Site Alpha Primary Lab]. Tonnage boosts ML significantly. Min value is 10. Every 3 tons above 10 will add 1 extra gooified drop. Enemies become stun immune @30? tons. @43 tons they become stagger immune and have about 50k attack and 100k hp.
+	defaultConfig("crimbo21_tons_desired", 28);		//+6 items dropped without becomming immune to stuns
 }
 
 void spam_url(string target)
@@ -99,9 +102,9 @@ boolean cAdv(location loc)
 
 int coldness()
 {
-	//[Site Alpha Dormitory] has scaling cold res requirement. starting at 5 and increased by 1 every 3 adv spent there.
+	//adv locations have scaling cold res requirement. starting at 5 and increased by 1 every 3 adv spent in any of the locations.
 	//there seems to be some unreliability on this value so add 1 to the final value
-	int visits = get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int();
+	int visits = get_property("_crimbo21_adv").to_int();
 	int adjust = get_property("_crimbo21_cold_adjust").to_int();
 	return 6 + (visits / 3) + adjust;
 }
@@ -115,8 +118,7 @@ void coldness_correction()
 		return;		//nothing to fix yet
 	}
 	
-	int predicted_value = (get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int()) / 3;
-	predicted_value += 5;
+	int predicted_value = 5 + get_property("_crimbo21_adv").to_int();
 	int diff = actual_coldness - predicted_value;
 	auto_log_debug("Compensating for coldness. adjust value = " +diff);
 	set_property("_crimbo21_cold_adjust", diff);
@@ -236,6 +238,7 @@ boolean crimbo_loop()
 	{
 		change_mcd(0);
 	}
+	uneffect($effect[Ur-kel\'s Aria of Annoyance]);
 	
 	crimbo21_consume();
 	if(get_property("crimbo_do_free_combats").to_boolean())
@@ -330,7 +333,7 @@ void main(int adv_to_use)
 	backupSetting("maximizerCombinationLimit", "100000");
 	backupSetting("betweenBattleScript", "scripts/crimbo/crimbo_pre_adv.ash");
 	backupSetting("afterAdventureScript", "scripts/crimbo/crimbo_post_adv.ash");
-	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
+	backupSetting("choiceAdventureScript", "scripts/crimbo/crimbo_choice_adv.ash");
 	backupSetting("recoveryScript", "");
 	backupSetting("counterScript", "");
 	backupSetting("battleAction", "custom combat script");
