@@ -236,6 +236,7 @@ boolean crimbo_loop()
 	{
 		change_mcd(0);
 	}
+	uneffect($effect[Ur-kel\'s Aria of Annoyance]);
 	
 	crimbo21_consume();
 	if(get_property("crimbo_do_free_combats").to_boolean())
