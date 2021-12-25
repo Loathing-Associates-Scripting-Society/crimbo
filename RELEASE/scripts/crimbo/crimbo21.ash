@@ -99,9 +99,9 @@ boolean cAdv(location loc)
 
 int coldness()
 {
-	//[Site Alpha Dormitory] has scaling cold res requirement. starting at 5 and increased by 1 every 3 adv spent there.
+	//adv locations have scaling cold res requirement. starting at 5 and increased by 1 every 3 adv spent in any of the locations.
 	//there seems to be some unreliability on this value so add 1 to the final value
-	int visits = get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int();
+	int visits = get_property("_crimbo21_adv").to_int();
 	int adjust = get_property("_crimbo21_cold_adjust").to_int();
 	return 6 + (visits / 3) + adjust;
 }
@@ -115,8 +115,7 @@ void coldness_correction()
 		return;		//nothing to fix yet
 	}
 	
-	int predicted_value = (get_property("_crimbo21_greenhouse").to_int() + get_property("_crimbo21_dormitory").to_int()) / 3;
-	predicted_value += 5;
+	int predicted_value = 5 + get_property("_crimbo21_adv").to_int();
 	int diff = actual_coldness - predicted_value;
 	auto_log_debug("Compensating for coldness. adjust value = " +diff);
 	set_property("_crimbo21_cold_adjust", diff);
