@@ -263,7 +263,9 @@ boolean crimbo_loop()
 	coldFam();		//get a cold res familiar if possible.
 	
 	//configure maximizer
-	set_property("auto_maximize_current", "cold res");
+	//we want to avoid maximizer taking on bad traits like -spell damage and +ml. So we include their opposite but at a tiny fraction
+	string maximizer_override = "-ml,+spell damage,1000cold res";
+	set_property("auto_maximize_current", maximizer_override);
 	if(possessEquipment($item[goo magnet]))
 	{
 		autoForceEquip($item[goo magnet]);
