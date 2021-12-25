@@ -331,7 +331,7 @@ void main(int adv_to_use)
 	backupSetting("maximizerCombinationLimit", "100000");
 	backupSetting("betweenBattleScript", "scripts/crimbo/crimbo_pre_adv.ash");
 	backupSetting("afterAdventureScript", "scripts/crimbo/crimbo_post_adv.ash");
-	backupSetting("choiceAdventureScript", "scripts/autoscend/auto_choice_adv.ash");
+	backupSetting("choiceAdventureScript", "scripts/crimbo/crimbo_choice_adv.ash");
 	backupSetting("recoveryScript", "");
 	backupSetting("counterScript", "");
 	backupSetting("battleAction", "custom combat script");
