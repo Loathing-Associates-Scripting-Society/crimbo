@@ -3,9 +3,9 @@ import <scripts/autoscend.ash>
 void crimbo_settings_defaults()
 {
 	//set default values for settings which have not yet been configured
-	defaultConfig("crimbo21_ratio_animal", 1);
-	defaultConfig("crimbo21_ratio_vegetable", 1);
-	defaultConfig("crimbo21_ratio_mineral", 1);
+	remove_property("crimbo21_ratio_animal");
+	remove_property("crimbo21_ratio_vegetable");
+	remove_property("crimbo21_ratio_mineral");
 	rename_property("crimbo21_consume","crimbo21_food");
 }
 
@@ -156,50 +156,6 @@ void coldFam()
 	}
 }
 
-location crimbo21_goal()
-{
-	//determine where we should adventure
-	location retval = $location[none];
-	
-	int anim_rat = get_property("crimbo21_ratio_animal").to_int();
-	int vege_rat = get_property("crimbo21_ratio_vegetable").to_int();
-	int mine_rat = get_property("crimbo21_ratio_mineral").to_int();
-	boolean skip_dormitory = anim_rat < 1;
-	boolean skip_greenhouse = vege_rat < 1;
-	boolean skip_quarry = mine_rat < 1;
-	
-	//find the relative values while preventing division by zero
-	float anim_val = -1;
-	float vege_val = -1;
-	float mine_val = -1;
-	if(!skip_dormitory) anim_val = item_amount($item[gooified animal matter]) / anim_rat;
-	if(!skip_greenhouse) vege_val = item_amount($item[gooified vegetable matter]) / vege_rat;
-	if(!skip_quarry) mine_val = item_amount($item[gooified mineral matter]) / mine_rat;
-	
-	//choose lowest val as target. so long as it is not skipped
-	if(!skip_dormitory)
-	{
-		retval = $location[site alpha dormitory];
-	}
-	if(!skip_greenhouse)
-	{
-		if(retval == $location[none] || vege_val < anim_val)
-		{
-			retval = $location[site alpha greenhouse];
-		}
-	}
-	if(!skip_quarry)
-	{
-		if(retval == $location[none] ||
-		(retval == $location[site alpha dormitory] && mine_val < anim_val) ||
-		(retval == $location[site alpha greenhouse] && mine_val < vege_val))
-		{
-			retval = $location[site alpha quarry];
-		}
-	}
-	return retval;
-}
-
 void crimbo21_food()
 {
 	//crimbo21 has epic quality experimental food buyable as a quest item. once you eat one you can get another
@@ -275,6 +231,12 @@ boolean crimbo_loop()
 	
 	resetState();
 	
+	//MCD is bad @ [site alpha primary lab]
+	if(current_mcd() != 0)
+	{
+		change_mcd(0);
+	}
+	
 	crimbo21_consume();
 	if(get_property("crimbo_do_free_combats").to_boolean())
 	{
@@ -297,13 +259,29 @@ boolean crimbo_loop()
 	
 	//choose where to adv based on user configured ratio.
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
-	location goal = crimbo21_goal();
-	if(goal == $location[none]) abort("We have no target locaton to adv");
+	location goal = $location[site alpha primary lab];
 	coldFam();		//get a cold res familiar if possible.
 	
 	//configure maximizer
-	string maximizer_override = "item,100cold res";
+	//we want to avoid maximizer taking on bad traits like -spell damage and +ml. So we include their opposite but at a tiny fraction
+	string maximizer_override = "-ml,+spell damage,1000cold res";
 	set_property("auto_maximize_current", maximizer_override);
+	if(possessEquipment($item[goo magnet]))
+	{
+		autoForceEquip($item[goo magnet]);
+	}
+	//up to 2 [ert grey goo ring] may be equipped to increase the number of goo drops you get.
+	item gring = $item[ert grey goo ring];
+	int gring_amt = item_amount(gring) + equipped_amount(gring);
+	if(gring_amt > 1)
+	{
+		autoForceEquip($slot[acc1], gring);
+		autoForceEquip($slot[acc2], gring);
+	}
+	else if(gring_amt == 1)
+	{
+		autoForceEquip($slot[acc1], gring);
+	}
 	maximize(get_property("auto_maximize_current"), 2500, 0, false);	//maximize. needed for provide as well.
 	
 	int coldResist = numeric_modifier("Cold Resistance");
