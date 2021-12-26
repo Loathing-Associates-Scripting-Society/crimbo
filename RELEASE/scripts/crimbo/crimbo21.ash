@@ -298,6 +298,7 @@ boolean crimbo_loop()
 	{
 		visit_sauna();
 	}
+	acquireHP();
 
 	//finally adventure
 	if(cAdv(goal)) return true;
