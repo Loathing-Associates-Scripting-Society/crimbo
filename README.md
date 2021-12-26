@@ -33,6 +33,7 @@ crimbo21 X
 Where X = number of adv you are willing to spend
 
 Or you can click on it from the dropdown scripts menu to be asked how many adventures to spend in a popup.
+
 You need to configure a custom combat script for fighting the enemies. My personal script (for sauceror) is:
 
 ```
@@ -45,3 +46,6 @@ special action
 skill micrometeorite
 skill saucegeyser
 ```
+
+It will not touch your Mood. so you can set it to whatever you feel is appropriate.
+It will maintain infinitely available non potion buffs automatically. For potions and limited buffs you should use moods when appropriate. (only use them when it can progress no further on the unlimited buffs).
