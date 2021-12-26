@@ -33,3 +33,15 @@ crimbo21 X
 Where X = number of adv you are willing to spend
 
 Or you can click on it from the dropdown scripts menu to be asked how many adventures to spend in a popup.
+You need to configure a custom combat script for fighting the enemies. My personal script (for sauceror) is:
+
+```
+[ default ]
+scrollwhendone
+if sauceror
+    skill curse of weaksauce
+endif
+special action
+skill micrometeorite
+skill saucegeyser
+```
