@@ -238,7 +238,8 @@ boolean crimbo_loop()
 	{
 		change_mcd(0);
 	}
-	uneffect($effect[Ur-kel\'s Aria of Annoyance]);
+	uneffect($effect[Ur-kel\'s Aria of Annoyance]);		//+ML is unwanted
+	uneffect($effect[Blood Sugar Sauce Magic]);			//convert HP to MP is unwanted.
 	
 	crimbo21_consume();
 	if(get_property("crimbo_do_free_combats").to_boolean())
@@ -254,11 +255,16 @@ boolean crimbo_loop()
 	buffMaintain($effect[Elemental saucesphere]);
 	buffMaintain($effect[Scarysauce]);
 	buffMaintain($effect[Scariersauce]);
+	buffMaintain($effect[Feeling Peaceful]);			//+2 all res. +10 DR, +100 DA. unsupported?
 	
-	//item buffs
-	asdonBuff($effect[Driving Observantly]);					//+50% item drops
-	buffMaintain($effect[Fat Leon\'s Phat Loot Lyric]);			//+20 item drop
-	buffMaintain($effect[Singer\'s Faithful Ocelot]);			//+10 item drop
+	//other buffs
+	//asdonBuff($effect[Driving Observantly]);					//+50% item drops. obsolete in lab
+	//buffMaintain($effect[Fat Leon\'s Phat Loot Lyric]);		//+20 item drop. obsolete in lab
+	//buffMaintain($effect[Singer\'s Faithful Ocelot]);			//+10 item drop. obsolete in lab
+	buffMaintain($effect[Carol of the Hells]);					//+100% spell damage
+	buffMaintain($effect[Big]);									//+20% all stats
+	buffMaintain($effect[Triple-Sized]);						//+200% all stats
+	buffMaintain($effect[blood bubble]);						//blocks 1st hit in combat
 	
 	//choose where to adv based on user configured ratio.
 	//requires scaling cold res. start at 5 and increase by 1 every 3 adv done there
