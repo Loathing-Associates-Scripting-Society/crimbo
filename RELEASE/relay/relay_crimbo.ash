@@ -113,6 +113,7 @@ void main()
 {
 	
 	initializeSettings();	//initialize autoscend settings for this ascension. relevant to ttpack due to shared settings like 100%familiar
+	crimbo_settings_defaults();		//initialize crimbo settings
 	
 	write_styles();
 	writeln("<html><head><title>ttpack manager</title>");
