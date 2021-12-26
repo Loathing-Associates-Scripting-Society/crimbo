@@ -112,11 +112,12 @@ void write_settings_key()
 void main()
 {
 	
-	initializeSettings();	//initialize autoscend settings for this ascension. relevant to ttpack due to shared settings like 100%familiar
+	initializeSettings();	//initialize autoscend settings for this ascension. relevant to crimbo due to shared settings like 100%familiar
+	crimbo_settings_defaults();		//initialize crimbo settings
 	
 	write_styles();
-	writeln("<html><head><title>ttpack manager</title>");
-	writeln("</head><body><h1>ttpack manager</h1>");
+	writeln("<html><head><title>crimbo manager</title>");
+	writeln("</head><body><h1>crimbo manager</h1>");
 
 	//button to interrupt script
 	writeln("<form action='' method='post'>");
@@ -174,7 +175,7 @@ void main()
 	writeln("Ascension: " + my_ascensions() + "<br>");
 	writeln("Day: " + my_daycount() + "<br>");
 	writeln("Turns Played: " + my_turncount() + "<br>");
-	writeln("ttpack version: " +svn_info("ttpack").last_changed_rev+ "<br>");
+	writeln("crimbo version: " +svn_info("crimbo").last_changed_rev+ "<br>");
 
 	writeln("<br>");
 	writeln("</body></html>");
