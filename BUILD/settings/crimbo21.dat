@@ -2,3 +2,11 @@
 crimbo21_food	boolean	Set to True to automatically make and consume the EPIC quality experimental crimbo food
 crimbo21_drink	boolean	Set to True to automatically make and consume the good quality experimental crimbo drink
 crimbo21_tons_desired	int	Desired target tons for enemies in [Site Alpha Primary Lab]. Tonnage boosts ML significantly. Min value is 10. Every 3 tons above 10 will add 1 extra gooified drop. Enemies become stun immune @30? tons. @43 tons they become stagger immune and have about 50k attack and 100k hp.
+crimbo21_spend	boolean	spend your gooified matter in [Gift Fabrication Lab]. off by default. Set the caps on rare gifts desired below. If enabled we will purcahse the gift of which you have the fewest rares up to the cap specified below. -1 means unlimited. 0 means nothing is bought.
+crimbo21_giftcap_1	int	Maximum amount of [festive egg sac] wanted from Animal (30 each).
+crimbo21_giftcap_2	int	Maximum amount of [the Crymbich Manuscript] wanted from Vegetable (30 each).
+crimbo21_giftcap_3	int	Maximum amount of [synthetic rock] wanted from Mineral (30 each).
+crimbo21_giftcap_4	int	Maximum amount of [carnivorous potted plant] wanted from Animal + Vegetable (15 each).
+crimbo21_giftcap_5	int	Maximum amount of [potato alarm clock] wanted from Vegetable + Mineral (15 each).
+crimbo21_giftcap_6	int	Maximum amount of [boxed gumball machine] wanted from Mineral + Animal (15 each)
+crimbo21_giftcap_7	int	Maximum amount of [can of mixed everything] wanted from Everything (10 each)

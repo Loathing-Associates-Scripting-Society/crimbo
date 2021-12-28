@@ -1,2 +1,3 @@
 #crimbo shared settings
 crimbo_do_free_combats	boolean	should we use up free combats before starting on crimbo. By default this is off.
+crimbo_advance_plot	boolean	if true script will automatically skip the plot for you by talking to tammy and abuella.
