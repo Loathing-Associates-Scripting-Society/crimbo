@@ -43,6 +43,10 @@ void spam_url(string target)
 void crimbo_quest_start()
 {
 	//starts the crimbo quests
+	if(!get_property("crimbo_advance_plot").to_boolean())
+	{
+		return;		//user did not opt in
+	}
 	if(get_property("_crimbo21_quest_started").to_boolean())
 	{
 		return;		//already done today
