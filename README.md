@@ -2,9 +2,9 @@
 Script for automating Crimbo in Kingdom of Loathing
 
 ## Dependencies
-When installed it will also install the following dependencies:
+Until mafia issue with github are resolved this will not automatically install the dependencies. instead it you need to manually make sure you have them installed and up to date.
 ```
-https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/
+svn checkout https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/
 ```
 
 ## Installation

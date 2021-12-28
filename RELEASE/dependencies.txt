@@ -1,1 +1,2 @@
-https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/
+## disabled until github install issues are fixed
+## https://github.com/Loathing-Associates-Scripting-Society/autoscend/branches/master/RELEASE/
