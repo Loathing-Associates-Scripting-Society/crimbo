@@ -239,7 +239,8 @@ boolean crimbo_loop()
 		change_mcd(0);
 	}
 	uneffect($effect[Ur-kel\'s Aria of Annoyance]);		//+ML is unwanted
-	uneffect($effect[Blood Sugar Sauce Magic]);			//convert HP to MP is unwanted.
+	uneffect($effect[[1457]Blood Sugar Sauce Magic]);	//convert HP to MP is unwanted. offclass version. 10%
+	uneffect($effect[[1458]Blood Sugar Sauce Magic]);	//convert HP to MP is unwanted. sauceror version. 30%
 	
 	crimbo21_consume();
 	if(get_property("crimbo_do_free_combats").to_boolean())
