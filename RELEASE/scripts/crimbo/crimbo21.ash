@@ -1,5 +1,10 @@
 import <scripts/autoscend.ash>
 
+//define some shorthand for items
+item goo_ani = $item[gooified animal matter];
+item goo_veg = $item[gooified vegetable matter];
+item goo_min = $item[gooified mineral matter];
+
 void crimbo_settings_defaults()
 {
 	//set default values for settings which have not yet been configured
@@ -38,6 +43,10 @@ void spam_url(string target)
 void crimbo_quest_start()
 {
 	//starts the crimbo quests
+	if(!get_property("crimbo_advance_plot").to_boolean())
+	{
+		return;		//user did not opt in
+	}
 	if(get_property("_crimbo21_quest_started").to_boolean())
 	{
 		return;		//already done today
@@ -173,7 +182,7 @@ void crimbo21_food()
 	consumeMilkOfMagnesiumIfUnused();
 	
 	item exp = $item[[experimental crimbo food]];
-	if(item_amount(exp) == 0 && item_amount($item[gooified animal matter]) >= 5)
+	if(item_amount(exp) == 0 && item_amount(goo_ani) >= 5)
 	{
 		visit_url("place.php?whichplace=northpole&action=np_foodlab");
 		run_choice(1);	//buy food
@@ -203,7 +212,7 @@ void crimbo21_drink()
 	}
 	
 	item exp = $item[[experimental crimbo booze]];
-	if(item_amount(exp) == 0 && item_amount($item[gooified vegetable matter]) >= 5)
+	if(item_amount(exp) == 0 && item_amount(goo_veg) >= 5)
 	{
 		visit_url("place.php?whichplace=northpole&action=np_boozelab");
 		run_choice(1);	//buy food
@@ -225,11 +234,180 @@ void crimbo21_consume()
 	crimbo21_drink();
 }
 
+boolean can_afford_goo(int id)
+{
+	//do we have enough animal, vegetable, and mineral matter
+	int ani = 0;
+	int veg = 0;
+	int min = 0;
+	switch(id)
+	{
+		case 1: ani = 30; break;
+		case 2: veg = 30; break;
+		case 3: min = 30; break;
+		case 4: ani = 15; veg = 15; break;
+		case 5: veg = 15; min = 15; break;
+		case 6: min = 15; ani = 15; break;
+		case 7: ani = 10; veg = 10; min = 10; break;
+	}
+	return item_amount(goo_ani) >= ani && item_amount(goo_veg) >= veg && item_amount(goo_min) >= min;
+}
+
+void spend_goo()
+{
+	//spend your gooified matter in [Gift Fabrication Lab]
+	if(!get_property("crimbo21_spend").to_boolean())
+	{
+		return;		//user did not opt in
+	}
+	
+	//id:
+	//1 => Animal (30)
+	//2 => Vegetable (30)
+	//3 => Mineral (30)
+	//4 => Animal + Vegetable (15 each)
+	//5 => Vegetable + Mineral (15 each)
+	//6 => Mineral + Animal (15 each)
+	//7 => A little bit of everything (10 each)
+	//8 => Leave. redundant. can navigate away.
+	
+	boolean spend = true;
+	
+	int buy_id = 0;
+	while(spend)
+	{
+		print("Delaying for 1 second before spending your goo. You can halt this by clicking the [safely stop scripts] button in the GUI");
+		wait(1);
+		auto_interruptCheck();	//abort if user hit [safely stop scripts] button
+		
+		spend = false;		//will disable the loop if nothing is found.
+		int amt_wanted = 0;
+		int test_id = 0;
+		item test_item = $item[none];
+		boolean want = false;
+		int buy_id = 0;					//the id of the rare item we intend to buy
+		item buy_item = $item[none];	//the item name of the rare item we intend to buy
+		int buy_have = 0;				//the amount you currently have of the target buying item
+		
+		//Animal (30)
+		amt_wanted = get_property("crimbo21_giftcap_1").to_int();
+		test_id = 1;
+		test_item = $item[festive egg sac];
+		if(can_afford_goo(test_id) && (amt_wanted < 0 || item_amount(test_item) < amt_wanted))
+		{
+			if(buy_id == 0 || item_amount(test_item) < item_amount(buy_item))
+			{
+				spend = true;
+				buy_id = test_id;
+				buy_item = test_item;
+				buy_have = item_amount(test_item);
+			}
+		}
+		
+		//Vegetable (30)
+		amt_wanted = get_property("crimbo21_giftcap_2").to_int();
+		test_id = 2;
+		test_item = $item[the Crymbich Manuscript];
+		if(can_afford_goo(test_id) && (amt_wanted < 0 || item_amount(test_item) < amt_wanted))
+		{
+			if(buy_id == 0 || item_amount(test_item) < item_amount(buy_item))
+			{
+				spend = true;
+				buy_id = test_id;
+				buy_item = test_item;
+				buy_have = item_amount(test_item);
+			}
+		}
+		
+		//Mineral (30)
+		amt_wanted = get_property("crimbo21_giftcap_3").to_int();
+		test_id = 3;
+		test_item = $item[synthetic rock];
+		if(can_afford_goo(test_id) && (amt_wanted < 0 || item_amount(test_item) < amt_wanted))
+		{
+			if(buy_id == 0 || item_amount(test_item) < item_amount(buy_item))
+			{
+				spend = true;
+				buy_id = test_id;
+				buy_item = test_item;
+				buy_have = item_amount(test_item);
+			}
+		}
+		
+		//Animal + Vegetable (15 each)
+		amt_wanted = get_property("crimbo21_giftcap_4").to_int();
+		test_id = 4;
+		test_item = $item[carnivorous potted plant];
+		if(can_afford_goo(test_id) && (amt_wanted < 0 || item_amount(test_item) < amt_wanted))
+		{
+			if(buy_id == 0 || item_amount(test_item) < item_amount(buy_item))
+			{
+				spend = true;
+				buy_id = test_id;
+				buy_item = test_item;
+				buy_have = item_amount(test_item);
+			}
+		}
+		
+		//Vegetable + Mineral (15 each)
+		amt_wanted = get_property("crimbo21_giftcap_5").to_int();
+		test_id = 5;
+		test_item = $item[potato alarm clock];
+		if(can_afford_goo(test_id) && (amt_wanted < 0 || item_amount(test_item) < amt_wanted))
+		{
+			if(buy_id == 0 || item_amount(test_item) < item_amount(buy_item))
+			{
+				spend = true;
+				buy_id = test_id;
+				buy_item = test_item;
+				buy_have = item_amount(test_item);
+			}
+		}
+		
+		//Mineral + Animal (15 each)
+		amt_wanted = get_property("crimbo21_giftcap_6").to_int();
+		test_id = 6;
+		test_item = $item[boxed gumball machine];
+		if(can_afford_goo(test_id) && (amt_wanted < 0 || item_amount(test_item) < amt_wanted))
+		{
+			if(buy_id == 0 || item_amount(test_item) < item_amount(buy_item))
+			{
+				spend = true;
+				buy_id = test_id;
+				buy_item = test_item;
+				buy_have = item_amount(test_item);
+			}
+		}
+		
+		//A little bit of everything (10 each)
+		amt_wanted = get_property("crimbo21_giftcap_7").to_int();
+		test_id = 7;
+		test_item = $item[can of mixed everything];
+		if(can_afford_goo(test_id) && (amt_wanted < 0 || item_amount(test_item) < amt_wanted))
+		{
+			if(buy_id == 0 || item_amount(test_item) < item_amount(buy_item))
+			{
+				spend = true;
+				buy_id = test_id;
+				buy_item = test_item;
+				buy_have = item_amount(test_item);
+			}
+		}
+		
+		if(spend)
+		{
+			visit_url("place.php?whichplace=northpole&action=np_toylab");
+			run_choice(buy_id);
+		}
+	}
+}
+
 boolean crimbo_loop()
 {
 	//return true when changes are made to restart the loop.
 	//return false to end the loop.
 	auto_interruptCheck();
+	spend_goo();
 	
 	resetState();
 	
@@ -349,6 +527,8 @@ void main(int adv_to_use)
 	backupSetting("logPreferenceChangeFilter", "maximizerMRUList,testudinalTeachings,auto_maximize_current");
 	
 	int adv_initial = my_session_adv();
+	
+	spend_goo();
 	
 	//primary loop
 	int adv_spent = 0;
