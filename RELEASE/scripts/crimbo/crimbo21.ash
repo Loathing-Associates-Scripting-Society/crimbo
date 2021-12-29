@@ -182,10 +182,14 @@ void crimbo21_food()
 	consumeMilkOfMagnesiumIfUnused();
 	
 	item exp = $item[[experimental crimbo food]];
-	if(item_amount(exp) == 0 && item_amount(goo_ani) >= 5)
+	if(item_amount(exp) == 0)
 	{
-		visit_url("place.php?whichplace=northpole&action=np_foodlab");
-		run_choice(1);	//buy food
+		if(item_amount(goo_ani) >= 5)
+		{
+			visit_url("place.php?whichplace=northpole&action=np_foodlab");
+			run_choice(1);	//buy food
+		}
+		else return;	//we can not afford to buy it right now
 	}
 	if(item_amount(exp) == 0) abort("Mysteriously failed to acquire " +exp);
 	
@@ -212,10 +216,14 @@ void crimbo21_drink()
 	}
 	
 	item exp = $item[[experimental crimbo booze]];
-	if(item_amount(exp) == 0 && item_amount(goo_veg) >= 5)
+	if(item_amount(exp) == 0)
 	{
-		visit_url("place.php?whichplace=northpole&action=np_boozelab");
-		run_choice(1);	//buy food
+		if(item_amount(goo_veg) >= 5)
+		{
+			visit_url("place.php?whichplace=northpole&action=np_boozelab");
+			run_choice(1);	//buy food
+		}
+		else return;	//we can not afford to buy it right now
 	}
 	if(item_amount(exp) == 0) abort("Mysteriously failed to acquire " +exp);
 	
