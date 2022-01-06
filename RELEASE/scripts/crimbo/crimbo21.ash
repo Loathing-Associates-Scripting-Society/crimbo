@@ -410,6 +410,42 @@ void spend_goo()
 	}
 }
 
+int coldRes()
+{
+	return numeric_modifier("Cold Resistance");
+}
+
+void prepare_cold_res()
+{
+	auto_log_debug("Attempting to acquire " +coldness()+ " cold res");
+	int [element] res;
+	res[$element[cold]] = coldness();
+	provideResistances(res, goal, false);		//do not switch outfit here. maximizer handles it better.
+	
+	boolean needed()
+	{
+		return coldRes() < coldness();
+	}
+	
+	foreach ef in $effects[Oiled-Up, Red Door Syndrome, Spooky Hands, Insulated Trousers, Berry Elemental]
+	{
+		if(needed())
+		{
+			buffMaintain(ef);
+		}
+	}
+	
+	if(needed())
+	{
+		rethinkingCandy($effect[Synthesis: Cold]);
+	}
+	
+	if(needed())
+	{
+		visit_sauna();
+	}
+}
+
 boolean crimbo_loop()
 {
 	//return true when changes are made to restart the loop.
@@ -480,17 +516,7 @@ boolean crimbo_loop()
 	}
 	maximize(get_property("auto_maximize_current"), 2500, 0, false);	//maximize. needed for provide as well.
 	
-	int coldResist = numeric_modifier("Cold Resistance");
-	int coldness = coldness();
-	auto_log_debug("Attempting to acquire " +coldness+ " cold res");
-	int [element] res;
-	res[$element[cold]] = coldness;
-	provideResistances(res, goal, false);		//do not switch outfit here. maximizer handles it better.
-	
-	if(coldResist < coldness)
-	{
-		visit_sauna();
-	}
+	prepare_cold_res();
 	acquireHP();
 
 	//finally adventure
