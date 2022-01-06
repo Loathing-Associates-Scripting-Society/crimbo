@@ -415,7 +415,7 @@ int coldRes()
 	return numeric_modifier("Cold Resistance");
 }
 
-void prepare_cold_res()
+void prepare_cold_res(location goal)
 {
 	auto_log_debug("Attempting to acquire " +coldness()+ " cold res");
 	int [element] res;
@@ -516,7 +516,7 @@ boolean crimbo_loop()
 	}
 	maximize(get_property("auto_maximize_current"), 2500, 0, false);	//maximize. needed for provide as well.
 	
-	prepare_cold_res();
+	prepare_cold_res(goal);
 	acquireHP();
 
 	//finally adventure
