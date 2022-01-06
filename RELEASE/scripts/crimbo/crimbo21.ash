@@ -427,7 +427,7 @@ void prepare_cold_res(location goal)
 		return coldRes() < coldness();
 	}
 	
-	foreach ef in $effects[Oiled-Up, Red Door Syndrome, Spooky Hands, Insulated Trousers, Berry Elemental]
+	foreach ef in $effects[Oiled-Up, Red Door Syndrome, Spooky Hands, Insulated Trousers, Berry Elemental, Burning Hands, Hot Hands, Shells of the Damned]
 	{
 		if(needed())
 		{
