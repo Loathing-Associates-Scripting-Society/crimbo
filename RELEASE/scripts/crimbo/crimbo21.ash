@@ -127,7 +127,7 @@ void coldness_correction()
 		return;		//nothing to fix yet
 	}
 	
-	int predicted_value = 5 + get_property("_crimbo21_adv").to_int();
+	int predicted_value = 5 + (get_property("_crimbo21_adv").to_int() / 3);
 	int diff = actual_coldness - predicted_value;
 	auto_log_debug("Compensating for coldness. adjust value = " +diff);
 	set_property("_crimbo21_cold_adjust", diff);
